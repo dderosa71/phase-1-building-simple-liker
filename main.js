@@ -23,3 +23,35 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
     }, 300);
   });
 }
+
+let like = document.querySelectorAll(".like-glyph");
+for (let x = 0; x < like.length; x++){
+    like[x].addEventListener('click', () => heartSwitcher(like[x])
+  )
+}
+
+function heartSwitcher(element){
+  mimicServerCall()
+  .then(()=> {if (element.innerHTML === EMPTY_HEART){
+      element.innerHTML = FULL_HEART
+      element.classList.add('activated-heart')
+    }else if (element.innerHTML === FULL_HEART){
+      element.innerHTML = EMPTY_HEART
+      element.classList.remove('activated-heart') 
+  }
+  
+})
+  .catch((error)=>{
+    const modal = document.querySelector("#modal")
+    modalP = modal.querySelector("#modal-message")
+    modal.classList.remove("hidden")
+    modalP.innerText = error;
+    setTimeout(()=>modal.classList.add("hidden"), 3000)
+  
+  })
+}
+
+// classList add, remove, contains
+// cant seem to put functions between fetch/fetch equivalent and .then
+//should catched come before .thens? does it matter? the instructions
+//had the catch come first./
